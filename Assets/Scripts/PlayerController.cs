@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(PlayerMotor))]
-public class PlayerController : NetworkBehaviour
+public class PlayerController : MonoBehaviour
 {
     [SerializeField]    //make private variables to be shown in the inspector
     private float speed = 5f;
@@ -12,8 +10,6 @@ public class PlayerController : NetworkBehaviour
 
     [SerializeField]
     private float thrusterForce = 1000f;
-    [SerializeField]
-    private GameObject[] prefabs;
 
     [SerializeField]
     private float thrusterFuelBurnSpeed = 1f;
@@ -94,85 +90,6 @@ public class PlayerController : NetworkBehaviour
         //apply thruster force
         motor.ApplyThrusterF(thrusterForceLoc);
         #endregion
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            PlayerRayCast();
-        }
     }
-
-    #region createObject
-
-    [System.Obsolete]
-    public void PlayerRayCast()
-    {
-
-        RaycastHit hit;
-
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-
-        if (Physics.Raycast(ray, out hit, 3.0f))
-        {
-            Transform objectHit = hit.transform;
-            GameObject created = CreateObject(prefabs[0]);
-
-            Vector3 hitPosition = hit.point;
-            Vector3 objPosition = hit.transform.position;
-
-
-
-            created.transform.position = detectSpawnPosition(hitPosition, objPosition, hit.transform.localScale, created.transform.localScale);
-
-
-            // Do something with the object that was hit by the raycast.
-        }
-
-    }
-
-    Vector3 detectSpawnPosition(Vector3 hitPosition, Vector3 objPosition, Vector3 hittedObjScale, Vector3 creatingObjScale)
-    {
-
-        double[] diferrences = new double[3];
-
-        diferrences[0] = Mathf.Abs(hitPosition.x - objPosition.x);
-        diferrences[1] = Mathf.Abs(hitPosition.y - objPosition.y);
-        diferrences[2] = Mathf.Abs(hitPosition.z - objPosition.z);
-
-        int i = diferrences.ToList().IndexOf(diferrences.Max());
-
-        switch (i)
-        {
-            case 0:
-                return new Vector3(
-                    objPosition.x + (hittedObjScale.x * 0.5f * (hitPosition.x - objPosition.x) > 0 ? 1 : -1),
-                    objPosition.y,
-                    objPosition.z);
-            case 1:
-                return new Vector3(
-                    objPosition.x,
-                    objPosition.y + (hittedObjScale.y * 0.5f * (hitPosition.y - objPosition.y) > 0 ? 1 : -1),
-                    objPosition.z);
-            case 2:
-                return new Vector3(
-                    objPosition.x,
-                    objPosition.y,
-                    objPosition.z + (hittedObjScale.z * 0.5f * (hitPosition.z - objPosition.z) > 0 ? 1 : -1));
-
-        }
-        return Vector3.zero;
-    }
-
-    [System.Obsolete]
-    GameObject CreateObject(GameObject prefab)
-    {
-        GameObject obj = (GameObject)Instantiate(prefab);
-
-        //Spawn the bullet on the clients
-        NetworkServer.Spawn(obj);
-
-        return obj;
-    }
-
-    #endregion
 
 }

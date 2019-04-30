@@ -413,7 +413,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 18c77747bf35b9445b88dc524cda5eda, type: 2}
   - {fileID: 2100000, guid: dc5c06d4eb6d48d4399a943c99a72e8b, type: 2}
   prefab: {fileID: 1389624925858027601, guid: 5855953b071f1cc4c9a9be06d8385048, type: 3}
-  mapSize: {x: 50, y: 10, z: 50}
+  mapSize: {x: 50, y: 5, z: 50}
 --- !u!114 &469351821
 MonoBehaviour:
   m_ObjectHideFlags: 0

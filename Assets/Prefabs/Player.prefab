@@ -165,8 +165,6 @@ MonoBehaviour:
   speed: 5
   lookSensitivity: 3
   thrusterForce: 800
-  prefabs:
-  - {fileID: 1389624925858027601, guid: 5855953b071f1cc4c9a9be06d8385048, type: 3}
   thrusterFuelBurnSpeed: 0.9
   thrusterFuelRegenSpeed: 0.3
 --- !u!114 &6670549879740660395
@@ -295,6 +293,8 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 567
+  prefabs:
+  - {fileID: 1389624925858027601, guid: 5855953b071f1cc4c9a9be06d8385048, type: 3}
 --- !u!114 &7760712073941261243
 MonoBehaviour:
   m_ObjectHideFlags: 0

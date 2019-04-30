@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(WeaponManager))]
@@ -11,6 +12,8 @@ public class PlayerShoot : NetworkBehaviour
 
     [SerializeField]
     private LayerMask mask;
+    [SerializeField]
+    private GameObject[] prefabs;
 
     private WeaponManager weaponManager;
     private PlayerWeapon curWeapon;
@@ -60,6 +63,11 @@ public class PlayerShoot : NetworkBehaviour
                 CancelInvoke("Shoot");
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            PlayerRayCast();
+        }
     }
 
     //Is called on the server when a player shoots
@@ -107,4 +115,74 @@ public class PlayerShoot : NetworkBehaviour
         Player player = GameManager.GetPlayer(playerID);    //find player that gets damage
         player.RpcTakeDamage(damage);    //taking damage from shooting
     }
+
+    #region createObject
+
+    [System.Obsolete]
+    public void PlayerRayCast()
+    {
+
+        RaycastHit hit;
+
+        //Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 3.0f, mask))
+        {
+            Transform objectHit = hit.transform;
+            CmdCreateObject(prefabs[0], hit.point, hit.transform.position, hit.transform.localScale);
+
+
+            //created.transform.position = detectSpawnPosition(hitPosition, objPosition, hit.transform.localScale, created.transform.localScale);
+
+
+            // Do something with the object that was hit by the raycast.
+        }
+
+    }
+
+    Vector3 detectSpawnPosition(Vector3 hitPosition, Vector3 objPosition, Vector3 hittedObjScale, Vector3 creatingObjScale)
+    {
+
+        double[] diferrences = new double[3];
+
+        diferrences[0] = Mathf.Abs(hitPosition.x - objPosition.x);
+        diferrences[1] = Mathf.Abs(hitPosition.y - objPosition.y);
+        diferrences[2] = Mathf.Abs(hitPosition.z - objPosition.z);
+
+        int i = diferrences.ToList().IndexOf(diferrences.Max());
+
+        switch (i)
+        {
+            case 0:
+                return new Vector3(
+                    objPosition.x + (hittedObjScale.x * 0.5f * (hitPosition.x - objPosition.x) > 0 ? 1 : -1),
+                    objPosition.y,
+                    objPosition.z);
+            case 1:
+                return new Vector3(
+                    objPosition.x,
+                    objPosition.y + (hittedObjScale.y * 0.5f * (hitPosition.y - objPosition.y) > 0 ? 1 : -1),
+                    objPosition.z);
+            case 2:
+                return new Vector3(
+                    objPosition.x,
+                    objPosition.y,
+                    objPosition.z + (hittedObjScale.z * 0.5f * (hitPosition.z - objPosition.z) > 0 ? 1 : -1));
+
+        }
+        return Vector3.zero;
+    }
+
+    [Command]
+    void CmdCreateObject(GameObject prefab, Vector3 hitPos, Vector3 objPos, Vector3 hitScale)
+    {
+        GameObject obj = (GameObject)Instantiate(prefab);
+
+        //Spawn the bullet on the clients
+        NetworkServer.Spawn(obj);
+
+        obj.transform.position = detectSpawnPosition(hitPos, objPos, hitScale, obj.transform.localScale);
+    }
+
+    #endregion
 }

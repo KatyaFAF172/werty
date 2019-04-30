@@ -65,6 +65,8 @@ public class PlayerMotor : MonoBehaviour
         {
             rb.AddForce(thrusterForce * Time.fixedDeltaTime, ForceMode.Acceleration);
         }
+
+        if (Input.GetKeyDown(KeyCode.Space) && rb.velocity.y == 0) { rb.AddForce(Vector3.up * 5, ForceMode.Impulse); }
     }
 
     void PerformRotation()
