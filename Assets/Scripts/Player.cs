@@ -56,6 +56,11 @@ public class Player : NetworkBehaviour
     }
     #endregion
 
+    public int GetCurHealth()
+    {
+        return curHealth;
+    }
+
     [ClientRpc]
     public void RpcTakeDamage(int damage)
     {
@@ -64,7 +69,7 @@ public class Player : NetworkBehaviour
 
         curHealth -= damage;
 
-        Debug.Log(transform.name + " now has " + curHealth + " hp");
+        //Debug.Log(transform.name + " now has " + curHealth + " hp");
 
         if(curHealth <= 0)
         {
