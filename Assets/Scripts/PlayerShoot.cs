@@ -1,14 +1,19 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(WeaponManager))]
 public class PlayerShoot : NetworkBehaviour
 {
+    #region variables
+
     private const string PLAYER_TAG = "Player";
+    private const string BOX_TAG = "CraftedBox";
 
     [SerializeField]
     private Camera cam;
+    private float impactForce = 170f;
 
     [SerializeField]
     private LayerMask mask;
@@ -17,6 +22,8 @@ public class PlayerShoot : NetworkBehaviour
 
     private WeaponManager weaponManager;
     private PlayerWeapon curWeapon;
+
+    #endregion
 
     private void Start()
     {
@@ -66,7 +73,7 @@ public class PlayerShoot : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            PlayerRayCast();
+            CmdPlayerRayCast();
         }
     }
 
@@ -99,11 +106,36 @@ public class PlayerShoot : NetworkBehaviour
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, curWeapon.range, mask))
         {
             //our bullet hits object in range of weapon if it has correct property
-            if(hit.collider.tag == PLAYER_TAG)
+            if (hit.collider.tag == PLAYER_TAG && hit.rigidbody != null)
             {
                 CmdPlayerShot(hit.collider.name, curWeapon.damage);
+                hit.rigidbody.AddForce(-hit.normal * impactForce);
             }
+            else
+                CmdShootToBox();
+
+//            if (hit.collider.tag == BOX_TAG)
+//            {
+//                Debug.Log(hit.collider.name + " has been damaged");
+//                //hit.collider.gameObject.GetComponent<Box>().CmdTakeBoxDamage(curWeapon.damage);
+//                CmdBoxShot(hit, curWeapon.damage);
+//            }
+
             //Debug.Log("We hit" + hit.collider.name);
+        }
+    }
+
+    [Command]
+    void CmdShootToBox()    
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, curWeapon.range, mask))
+        {
+            if (hit.collider.tag == BOX_TAG)
+            {
+                Debug.Log(hit.collider.name + " has been damaged");
+                hit.collider.gameObject.GetComponent<Box>().CmdTakeBoxDamage(curWeapon.damage);
+            }
         }
     }
 
@@ -116,10 +148,19 @@ public class PlayerShoot : NetworkBehaviour
         player.RpcTakeDamage(damage);    //taking damage from shooting
     }
 
+//    [Command]
+//    void CmdBoxShot(RaycastHit hit, int damage)
+//    {
+//        Debug.Log(hit.collider.name + " has been shot");
+//
+//        //Box box = GameManager;
+//        hit.collider.gameObject.GetComponent<Box>().CmdTakeBoxDamage(damage);
+//    }
+
     #region createObject
 
-    [System.Obsolete]
-    public void PlayerRayCast()
+    [Command]
+    public void CmdPlayerRayCast()
     {
 
         RaycastHit hit;

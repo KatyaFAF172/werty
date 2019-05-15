@@ -294,7 +294,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 567
   prefabs:
-  - {fileID: 1389624925858027601, guid: 5855953b071f1cc4c9a9be06d8385048, type: 3}
+  - {fileID: 1389624925858027601, guid: c9e8cd3a136758544b5dc2b5e30d10b8, type: 3}
 --- !u!114 &7760712073941261243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  mapSize: {x: 75, y: 40, z: 75}
   disableOnDeath:
   - {fileID: 1493389809777323556}
   - {fileID: 4198807891194531118}

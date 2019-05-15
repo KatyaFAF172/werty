@@ -3,11 +3,15 @@
 [RequireComponent(typeof(PlayerMotor))]
 public class PlayerController : MonoBehaviour
 {
+    #region variables
+    
     [SerializeField]    //make private variables to be shown in the inspector
     private float speed = 5f;
     [SerializeField]
     private float lookSensitivity = 3f;
 
+    private PlayerMotor motor;
+    
     [SerializeField]
     private float thrusterForce = 1000f;
 
@@ -16,13 +20,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float thrusterFuelRegenSpeed = 0.3f;
     private float thrusterFuelAmount = 1f;
+    
+    #endregion
 
     public float GetThrusterFuelAmount()
     {
         return thrusterFuelAmount;
     }
-
-    private PlayerMotor motor;
     
     // Start is called before the first frame update
     void Start()

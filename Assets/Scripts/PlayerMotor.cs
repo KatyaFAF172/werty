@@ -3,6 +3,8 @@
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMotor : MonoBehaviour
 {
+    #region variables
+    
     [SerializeField]
     private Camera cam;
 
@@ -16,6 +18,8 @@ public class PlayerMotor : MonoBehaviour
     [SerializeField]
     private float cameraRotationLimit = 85f;
     private Rigidbody rb;
+    
+    #endregion
     
     // Start is called before the first frame update
     void Start()
@@ -54,7 +58,7 @@ public class PlayerMotor : MonoBehaviour
         PerformRotation();
     }
 
-    void PerformMovement()
+    private void PerformMovement()
     {
         if (velocity != Vector3.zero)
         {
@@ -69,7 +73,7 @@ public class PlayerMotor : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && rb.velocity.y == 0) { rb.AddForce(Vector3.up * 5, ForceMode.Impulse); }
     }
 
-    void PerformRotation()
+    private void PerformRotation()
     {
         rb.MoveRotation(rb.rotation * Quaternion.Euler(rotation));  //make a quaternion for setting camera
         if (cam != null)

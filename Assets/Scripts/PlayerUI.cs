@@ -2,22 +2,26 @@
 
 public class PlayerUI : MonoBehaviour
 {
+    #region variables
+    
     [SerializeField]
     RectTransform thrusterFuelFill;
 
     private PlayerController controller;
+    
+    #endregion
 
     public void SetController(PlayerController controller)
     {
         this.controller = controller;
     }
 
-    void SetFuelAmount (float amount)
+    private void SetFuelAmount (float amount)
     {
         thrusterFuelFill.localScale = new Vector3(1f, amount, 1f);
     }
 
-    void Update()
+    private void Update()
     {
         SetFuelAmount(controller.GetThrusterFuelAmount());
     }

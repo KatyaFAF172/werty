@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class WeaponManager : NetworkBehaviour
 {
+    #region variables
+    
     [SerializeField]
     private PlayerWeapon PrimaryWeapon;
     [SerializeField]
@@ -13,6 +15,8 @@ public class WeaponManager : NetworkBehaviour
 
     private PlayerWeapon curWeapon;
     private WeaponGraphics currentGraphics;
+    
+    #endregion
 
     void Start()
     {
@@ -29,7 +33,7 @@ public class WeaponManager : NetworkBehaviour
         return currentGraphics;
     }
 
-    void EquipWeapon(PlayerWeapon weapon)
+    private void EquipWeapon(PlayerWeapon weapon)
     {
         curWeapon = weapon;
 

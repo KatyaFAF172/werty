@@ -5,6 +5,8 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(PlayerController))]
 public class PlayerSetup : NetworkBehaviour
 {
+    #region variables
+    
     [SerializeField]
     Behaviour[] componentsToDisable;
 
@@ -16,6 +18,8 @@ public class PlayerSetup : NetworkBehaviour
     private GameObject playerUIInstance;
 
     Camera sceneCamera;
+    
+    #endregion
     
     // Start is called before the first frame update
     void Start()
@@ -68,7 +72,7 @@ public class PlayerSetup : NetworkBehaviour
         }
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         Destroy(playerUIInstance);
 
@@ -78,10 +82,5 @@ public class PlayerSetup : NetworkBehaviour
         }
 
         GameManager.UnRegisterPlayer(transform.name);
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
