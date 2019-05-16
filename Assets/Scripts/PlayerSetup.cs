@@ -7,14 +7,9 @@ public class PlayerSetup : NetworkBehaviour
 {
     #region variables
     
-    [SerializeField]
-    Behaviour[] componentsToDisable;
-
-    [SerializeField]
-    string remoteLayerName = "RemotePlayer";
-
-    [SerializeField]
-    GameObject playerUIPrefab;
+    [SerializeField] Behaviour[] componentsToDisable;
+    [SerializeField] string remoteLayerName = "RemotePlayer";
+    [SerializeField] GameObject playerUIPrefab;
     private GameObject playerUIInstance;
 
     Camera sceneCamera;
@@ -35,6 +30,7 @@ public class PlayerSetup : NetworkBehaviour
             {
                 sceneCamera.gameObject.SetActive(false);
             }
+            
             //create playerUI
             playerUIInstance = Instantiate(playerUIPrefab);
             playerUIInstance.name = playerUIPrefab.name;

@@ -5,18 +5,14 @@ public class PlayerMotor : MonoBehaviour
 {
     #region variables
     
-    [SerializeField]
-    private Camera cam;
-
-
+    [SerializeField] private Camera cam;
     private Vector3 velocity = Vector3.zero;
     private Vector3 rotation = Vector3.zero;
     private float cameraRotationX = 0f;
     private float currentCameraRotationX = 0f;  //setting current position of camera rot.
     private Vector3 thrusterForce = Vector3.zero;
 
-    [SerializeField]
-    private float cameraRotationLimit = 85f;
+    [SerializeField] private float cameraRotationLimit = 85f;
     private Rigidbody rb;
     
     #endregion

@@ -6,8 +6,7 @@ public class Player : NetworkBehaviour
 {
     #region variables
 
-    [SyncVar]
-    private bool _isDead = false;
+    [SyncVar] private bool _isDead = false;
 
     public bool isDead
     {
@@ -15,18 +14,15 @@ public class Player : NetworkBehaviour
         protected set { _isDead = value; }
     }
 
-    [SerializeField]
-    private int maxHealth = 100;
+    [SerializeField] private int maxHealth = 100;
 
     public Vector3 mapSize;
 
-    [SyncVar]
-    private int curHealth;
+    [SyncVar] private int curHealth;
     //server needs to know health of each player at the specific moment of time and here's required total sync of this variable
     //with server.
 
-    [SerializeField]
-    private Behaviour[] disableOnDeath;
+    [SerializeField] private Behaviour[] disableOnDeath;
 
     #endregion
 
@@ -50,8 +46,6 @@ public class Player : NetworkBehaviour
         if(firstSetup)
         {
             SetDefaults();
-
-            //firstSetup = false;
         }
     }
     #endregion
@@ -68,8 +62,6 @@ public class Player : NetworkBehaviour
             return;
 
         curHealth -= damage;
-
-        //Debug.Log(transform.name + " now has " + curHealth + " hp");
 
         if(curHealth <= 0)
         {
@@ -103,8 +95,6 @@ public class Player : NetworkBehaviour
         yield return new WaitForSeconds(GameManager.instance.matchSettings.respawnTime);
 
         Transform spawnPoint = NetworkManager.singleton.GetStartPosition();
-        //transform.position = spawnPoint.position;
-        //transform.rotation = spawnPoint.rotation;
 
         if (isServer)
         {
@@ -137,15 +127,4 @@ public class Player : NetworkBehaviour
         if (col)
             col.enabled = true;
     }
-
-    //void Update()
-    //{
-    //    if (!isLocalPlayer)
-    //        return;
-
-    //    if (Input.GetKeyDown(KeyCode.K))
-    //    {
-    //        RpcTakeDamage(999);
-    //    }
-    //}
 }

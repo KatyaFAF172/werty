@@ -10,8 +10,6 @@ public class Box : NetworkBehaviour
     public void CmdTakeBoxDamage(int damage)
     {
         _curBoxHealth -= damage;
-        
-        //Debug.Log(transform.name + " now has " + curBoxHealth.ToString() + " hp");
 
         if (_curBoxHealth <= 0)
         {

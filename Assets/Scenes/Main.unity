@@ -417,7 +417,7 @@ MonoBehaviour:
   - {fileID: 1389624925858027601, guid: 16255e7c816d8ce4e9d3229e9c5dca80, type: 3}
   - {fileID: 1389624925858027601, guid: c23c86e5331a78045bfbe09968c19935, type: 3}
   - {fileID: 1389624925858027601, guid: 288504ebb8c31ed4693b7490a9f3240f, type: 3}
-  mapSize: {x: 100, y: 30, z: 100}
+  mapSize: {x: 100, y: 20, z: 100}
 --- !u!114 &469351821
 MonoBehaviour:
   m_ObjectHideFlags: 0

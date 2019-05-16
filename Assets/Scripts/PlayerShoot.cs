@@ -34,18 +34,6 @@ public class PlayerShoot : NetworkBehaviour
         }
 
         weaponManager = GetComponent<WeaponManager>();
-
-        //-----------------------------------------------------------
-        //fixing graphics if there is an object with clildren inside
-        //weaponGFX.layer = LayerMask.NameToLayer(weaponLayerName);
-        //Transform parent = weaponGFX.transform;
-        //foreach (Transform child in parent)
-        //    { child.gameObject.layer = LayerMask.NameToLayer(weaponLayerName); }
-        //-------------------------------------------------------------
-
-
-
-        //weaponGFX.layer = LayerMask.NameToLayer(weaponLayerName);
     }
 
     private void Update()
@@ -97,8 +85,6 @@ public class PlayerShoot : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
-        Debug.Log("Shoot");
-
         //We are shooting, call the OnShoot method on server
         CmdOnShoot();
 
@@ -113,15 +99,6 @@ public class PlayerShoot : NetworkBehaviour
             }
             else
                 CmdShootToBox();
-
-//            if (hit.collider.tag == BOX_TAG)
-//            {
-//                Debug.Log(hit.collider.name + " has been damaged");
-//                //hit.collider.gameObject.GetComponent<Box>().CmdTakeBoxDamage(curWeapon.damage);
-//                CmdBoxShot(hit, curWeapon.damage);
-//            }
-
-            //Debug.Log("We hit" + hit.collider.name);
         }
     }
 
@@ -142,20 +119,9 @@ public class PlayerShoot : NetworkBehaviour
     [Command]
     void CmdPlayerShot(string playerID, int damage)
     {
-        Debug.Log(playerID + " has been shot");
-        //Destroy(GameObject.Find(ID));
         Player player = GameManager.GetPlayer(playerID);    //find player that gets damage
         player.RpcTakeDamage(damage);    //taking damage from shooting
     }
-
-//    [Command]
-//    void CmdBoxShot(RaycastHit hit, int damage)
-//    {
-//        Debug.Log(hit.collider.name + " has been shot");
-//
-//        //Box box = GameManager;
-//        hit.collider.gameObject.GetComponent<Box>().CmdTakeBoxDamage(damage);
-//    }
 
     #region createObject
 
@@ -165,18 +131,10 @@ public class PlayerShoot : NetworkBehaviour
 
         RaycastHit hit;
 
-        //Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 3.0f, mask))
         {
             Transform objectHit = hit.transform;
             CmdCreateObject(prefabs[0], hit.point, hit.transform.position, hit.transform.localScale);
-
-
-            //created.transform.position = detectSpawnPosition(hitPosition, objPosition, hit.transform.localScale, created.transform.localScale);
-
-
-            // Do something with the object that was hit by the raycast.
         }
 
     }
